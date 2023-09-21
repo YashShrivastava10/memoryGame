@@ -8,6 +8,7 @@ A classic Memory game built using React, where players need to match pairs of nu
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Contact](#contact)
 
 ## Demo
 
