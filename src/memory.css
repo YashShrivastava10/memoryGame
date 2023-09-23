@@ -1,6 +1,22 @@
 .main{
     background-color: black;
     height: 100vh;
+    padding: 0;
+    margin: 0;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    overflow: hidden;
+}
+.howToPlay{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    color: #A4D1DA;
+    width: 100%;
+}
+.howToPlay div{
+    padding: 0px 20px 0px 10px;
 }
 .grid{
     display: flex;
@@ -15,16 +31,95 @@
     gap: 10px;
 }
 .number{
-    background-color: white;
+    background-color: #63C5DA;
     color: black;
     cursor: pointer;
     padding: 10px;
     height: 75px;
-    width: 50px;
+    width: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 5px;
+    position: relative;
+    font-size: 40px;
 }
-.number:hover{
-    background-color: azure;
+.firstRotate{
+    animation: firstRotate 0.5s ease forwards;
+}
+@keyframes firstRotate {
+    to{
+        transform: rotateY(-180deg);
+    }
+}
+.rotate{
+    animation: rotate 0.5s ease forwards;
+}
+.rotate span{
+    animation: revRotate 1s ease forwards;
+}
+@keyframes rotate {
+    from{
+        transform:rotateY(0deg)
+    }
+    to{
+        transform: rotateY(180deg);
+        background-color: blueviolet;
+    }
+}
+@keyframes revRotate {
+    to{
+        transform: rotateY(180deg);
+    }
+}
+.win{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.win h1{
+    color: blueviolet;
+}
+.btn{
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
+    border: none;
+    color:chocolate;
+    position: relative;
+    z-index: 2;
+    font-weight: bold;
+}
+.btn::before{
+    content: '';
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #63C5DA;
+    border-radius: 5px;
+    z-index: -1;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: right;
+}
+.btn:hover::before{
+    transform: scaleX(1);
+    transform-origin: left;
+}
+@media screen and (width <= 570px) {
+    .number{
+        height: 50px;
+        width: 75px;
+    }
+}
+@media screen and (width <= 420px) {
+    .number{
+        height: 50px;
+        width: 35px;
+    }
 }
