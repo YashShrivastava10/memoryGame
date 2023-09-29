@@ -12,7 +12,7 @@ A classic Memory game built using React, where players need to match pairs of nu
 
 ## Demo
 
-[Play the Live Demo](https://yashshrivastava10.github.io/memoryGame/) <!-- Replace with a live demo link -->
+[Memory Game](https://yashshrivastava10.github.io/memoryGame/) <!-- Replace with a live demo link -->
 
 ## Features
 
@@ -26,17 +26,24 @@ A classic Memory game built using React, where players need to match pairs of nu
 
 To run this project locally, follow these steps:
 
+
+### 1. Clone the repository:
 ```
-# 1. Clone the repository:
-git clone https://github.com/your-username/react-memory-game.git
+git clone https://github.com/your-username/memoryGame.git
+```
 
-# 2. Navigate to the project directory:
-cd react-memory-game
+### 2. Navigate to the project directory:
+```
+cd memoryGame
+```
 
-# 3. Install dependencies:
+### 3. Install dependencies:
+```
 npm install
+```
 
-# 4. Start the development server:
+### 4. Start the development server:
+```
 npm start
 ```
 
