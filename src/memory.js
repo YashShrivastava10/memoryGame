@@ -35,7 +35,7 @@ class Memory extends Component {
           [false, false, false, false]
         ]
       })
-    }, 700)
+    }, 1500)
   }
 
   shuffleGrid = (grid) => {
@@ -134,7 +134,7 @@ class Memory extends Component {
             <div>
               <ol>
                 <li>The game starts with all cards face down.</li>
-                <li>For the first 0.7 seconds, all cards are briefly revealed, showing their numbers.</li>
+                <li>For the first few seconds, all cards are briefly revealed, showing their numbers.</li>
                 <li>After 0.7 seconds, the cards are turned face down again.</li>
                 <li>You, as the player, start your turn and can click on two cards to reveal their numbers.</li>
                 <li>If the two cards have matching numbers, you have made a successful match, and those two cards are removed from the grid.</li>
