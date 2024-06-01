@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { shuffleGrid } from "./helper"
+import { getHtmlElement, shuffleGrid } from "./helper"
 
 const initialGrid = [
   [2, 1, 4, 0],
@@ -14,6 +14,7 @@ const initialVisibleGrid = (value) => [
 ]
 
 export const useMemoryHook = () => {
+
   const [show, setShow] = useState(1)
   const [grid, setGrid] = useState(initialGrid)
   const [visibleGrid, setVisibleGrid] = useState(initialVisibleGrid(true))
@@ -31,61 +32,84 @@ export const useMemoryHook = () => {
     }, 1500)
   }
 
+  const handleNotSameClicked = ({ newVisibleGrid, row, col, newPreviousNumber, elem1, elem2, card }) => {
+    newVisibleGrid[row][col] = false;
+    newVisibleGrid[newPreviousNumber.row][newPreviousNumber.col] = false;
+
+    elem1.classList.remove("rotate")
+    elem2.classList.remove("rotate")
+    card.style.pointerEvents = "auto"
+
+    newPreviousNumber.row = undefined
+    newPreviousNumber.col = undefined
+
+    setVisibleGrid(newVisibleGrid)
+    setPreviousNumber(newPreviousNumber)
+  }
+
+  const hanldeSameClicked = ({ elem1, elem2, newPreviousNumber, card }) => {
+    elem1.style.opacity = 0
+    elem2.style.opacity = 0
+    card.style.pointerEvents = "auto"
+
+    newPreviousNumber.row = undefined
+    newPreviousNumber.col = undefined
+
+    setPreviousNumber(newPreviousNumber)
+  }
+
   const showHide = (row, col) => {
-    const elem = document.getElementById(`${row}${col}`)
+    const elem = getHtmlElement(`${row}${col}`)
     elem.classList.add("rotate")
+
     let newVisibleGrid = [...visibleGrid]
     let newGrid = [...grid]
+
     newVisibleGrid[row][col] = true;
 
     let clickedNumber = newGrid[row][col]
     let newPreviousNumber = { ...previousNumber }
 
+    // Check if user is making the first click
     if (newPreviousNumber.row !== undefined) {
+
+      // If same card is clicked
       if (newPreviousNumber.row === row && newPreviousNumber.col === col) return
-      const card = document.getElementById("grid")
+
+      const card = getHtmlElement("grid")
       card.style.pointerEvents = "none"
+      const elem1 = getHtmlElement(`${row}${col}`)
+      const elem2 = getHtmlElement(`${newPreviousNumber.row}${newPreviousNumber.col}`)
+
       const number = newGrid[newPreviousNumber.row][newPreviousNumber.col]
+
+      // If clickedNumber is not equals to previousClickedNumber
       if (number !== clickedNumber) {
         setTimeout(() => {
-          newVisibleGrid[row][col] = false;
-          newVisibleGrid[newPreviousNumber.row][newPreviousNumber.col] = false;
-          const elem1 = document.getElementById(`${row}${col}`)
-          const elem2 = document.getElementById(`${newPreviousNumber.row}${newPreviousNumber.col}`)
-          elem1.classList.remove("rotate")
-          elem2.classList.remove("rotate")
-          card.style.pointerEvents = "auto"
-          newPreviousNumber.row = undefined
-          newPreviousNumber.col = undefined
-          setVisibleGrid(newVisibleGrid)
-          setPreviousNumber(newPreviousNumber)
+          handleNotSameClicked({ newVisibleGrid, row, col, newPreviousNumber, elem1, elem2, card })
         }, 1000)
       }
       else {
         setTimeout(() => {
-          const elem1 = document.getElementById(`${row}${col}`)
-          const elem2 = document.getElementById(`${newPreviousNumber.row}${newPreviousNumber.col}`)
-          elem1.style.opacity = 0
-          elem2.style.opacity = 0
-          newPreviousNumber.row = undefined
-          newPreviousNumber.col = undefined
-          card.style.pointerEvents = "auto"
-          setPreviousNumber(newPreviousNumber)
+          hanldeSameClicked({ elem1, elem2, newPreviousNumber, card })
         }, 500)
       }
+
       setTimeout(() => {
-        const status = newVisibleGrid.flat().every(status => status)
-        if (status) {
+        const allRevealed = newVisibleGrid.flat().every(status => status)
+        if (allRevealed) {
           setStatus(true)
           setGrid([])
         }
       }, 500)
     }
+
     else {
       newPreviousNumber.row = row
       newPreviousNumber.col = col
       setPreviousNumber(newPreviousNumber)
     }
+    
     setVisibleGrid(newVisibleGrid)
   }
 

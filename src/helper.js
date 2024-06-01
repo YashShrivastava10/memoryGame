@@ -14,3 +14,5 @@ export const shuffleGrid = (grid, setGrid) => {
   }
   setGrid(shuffledGrid)
 }
+
+export const getHtmlElement = (value) => document.getElementById(value)
