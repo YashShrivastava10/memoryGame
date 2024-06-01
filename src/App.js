@@ -1,4 +1,4 @@
-import Memory from "./memory";
+import { Memory } from "./memory";
 
 function App() {
   return (
