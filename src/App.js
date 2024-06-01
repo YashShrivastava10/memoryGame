@@ -1,9 +1,9 @@
-import { Memory } from "./memory";
+import { MemoryGame } from "./components/MemoryGame";
 
 function App() {
   return (
     <div className="App">
-      <Memory />
+      <MemoryGame />
     </div>
   );
 }

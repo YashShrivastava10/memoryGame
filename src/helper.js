@@ -1,3 +1,15 @@
+export const initialGrid = [
+  [2, 1, 4, 0],
+  [4, 3, 5, 3],
+  [1, 5, 2, 0]
+]
+
+export const initialVisibleGrid = (value) => [
+  [value, value, value, value],
+  [value, value, value, value],
+  [value, value, value, value]
+]
+
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

@@ -1,25 +1,12 @@
 import { useState } from "react"
-import { getHtmlElement, shuffleGrid } from "./helper"
+import { getHtmlElement, initialGrid, initialVisibleGrid, shuffleGrid } from "../helper"
 
-const initialGrid = [
-  [2, 1, 4, 0],
-  [4, 3, 5, 3],
-  [1, 5, 2, 0]
-]
-
-const initialVisibleGrid = (value) => [
-  [value, value, value, value],
-  [value, value, value, value],
-  [value, value, value, value]
-]
-
-export const useMemoryHook = () => {
+export const useMemoryGame = () => {
 
   const [show, setShow] = useState(1)
   const [grid, setGrid] = useState(initialGrid)
   const [visibleGrid, setVisibleGrid] = useState(initialVisibleGrid(true))
   const [previousNumber, setPreviousNumber] = useState({ row: undefined, col: undefined })
-  const [status, setStatus] = useState(false)
 
   const generateGrid = (grid) => {
     shuffleGrid(grid, setGrid)
@@ -98,7 +85,7 @@ export const useMemoryHook = () => {
       setTimeout(() => {
         const allRevealed = newVisibleGrid.flat().every(status => status)
         if (allRevealed) {
-          setStatus(true)
+          setShow(3)
           setGrid([])
         }
       }, 500)
@@ -114,10 +101,10 @@ export const useMemoryHook = () => {
   }
 
   const reset = () => {
-    setStatus(false)
+    setShow(2)
     setVisibleGrid(initialVisibleGrid(true))
     generateGrid(initialGrid)
   }
 
-  return { show, setShow, generateGrid, status, reset, grid, visibleGrid, showHide, setVisibleGrid }
+  return { show, setShow, generateGrid, reset, grid, visibleGrid, showHide, setVisibleGrid }
 }
