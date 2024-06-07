@@ -1,4 +1,8 @@
-export const Win = ({ reset }) => {
+type WinProps = {
+  reset: () => void
+}
+
+export const Win = ({ reset } : WinProps) => {
   return (
     <div className='win'>
       <h1>You Win</h1>

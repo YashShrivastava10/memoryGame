@@ -1,15 +1,50 @@
 import { useState } from "react"
 import { getHtmlElement, initialGrid, initialVisibleGrid, shuffleGrid } from "../helper"
 
+export type show = number
+export type grid = number[][]
+export type visibleGrid = boolean[][]
+export type previousNumber = { row: number | undefined, col: number | undefined }
+
+type handleNotSameClickedType = ({ 
+  newVisibleGrid, 
+  row, 
+  col, 
+  newPreviousNumber, 
+  elem1, 
+  elem2, 
+  card 
+}: { 
+  newVisibleGrid: visibleGrid; 
+  row: number; 
+  col: number; 
+  newPreviousNumber: previousNumber; 
+  elem1: HTMLElement; 
+  elem2: HTMLElement; 
+  card: HTMLElement 
+}) => void;
+
+type handleSameClickedType = ({ 
+  elem1,
+  elem2,
+  newPreviousNumber,
+  card
+}: {  
+  elem1: HTMLElement; 
+  elem2: HTMLElement;
+  newPreviousNumber: previousNumber;
+  card: HTMLElement 
+}) => void;
+
 export const useMemoryGame = () => {
 
-  const [show, setShow] = useState(1)
-  const [grid, setGrid] = useState(initialGrid)
-  const [visibleGrid, setVisibleGrid] = useState(initialVisibleGrid(true))
-  const [previousNumber, setPreviousNumber] = useState({ row: undefined, col: undefined })
+  const [show, setShow] = useState<show>(1)
+  const [grid, setGrid] = useState<grid>(initialGrid)
+  const [visibleGrid, setVisibleGrid] = useState<visibleGrid>(initialVisibleGrid(true))
+  const [previousNumber, setPreviousNumber] = useState<previousNumber>({ row: undefined, col: undefined })
 
-  const generateGrid = (grid) => {
-    shuffleGrid(grid, setGrid)
+  const generateGrid = (grid: grid) => {
+    shuffleGrid({grid, setGrid})
     setTimeout(() => {
       const numbers = document.querySelectorAll(".number")
       for (let i = 0; i < numbers.length; i++) {
@@ -19,9 +54,9 @@ export const useMemoryGame = () => {
     }, 1500)
   }
 
-  const handleNotSameClicked = ({ newVisibleGrid, row, col, newPreviousNumber, elem1, elem2, card }) => {
+  const handleNotSameClicked: handleNotSameClickedType = ({ newVisibleGrid, row, col, newPreviousNumber, elem1, elem2, card }) => {
     newVisibleGrid[row][col] = false;
-    newVisibleGrid[newPreviousNumber.row][newPreviousNumber.col] = false;
+    newVisibleGrid[newPreviousNumber.row!][newPreviousNumber.col!] = false;
 
     elem1.classList.remove("rotate")
     elem2.classList.remove("rotate")
@@ -34,9 +69,9 @@ export const useMemoryGame = () => {
     setPreviousNumber(newPreviousNumber)
   }
 
-  const hanldeSameClicked = ({ elem1, elem2, newPreviousNumber, card }) => {
-    elem1.style.opacity = 0
-    elem2.style.opacity = 0
+  const hanldeSameClicked: handleSameClickedType = ({ elem1, elem2, newPreviousNumber, card }) => {
+    elem1.style.opacity = "0"
+    elem2.style.opacity = "0"
     card.style.pointerEvents = "auto"
 
     newPreviousNumber.row = undefined
@@ -45,12 +80,17 @@ export const useMemoryGame = () => {
     setPreviousNumber(newPreviousNumber)
   }
 
-  const showHide = (row, col) => {
+  const showHide = ({row, col} : previousNumber) => {
     const elem = getHtmlElement(`${row}${col}`)
+
+    if(!elem) return
+
     elem.classList.add("rotate")
 
     let newVisibleGrid = [...visibleGrid]
     let newGrid = [...grid]
+
+    if(row === undefined || col === undefined) return
 
     newVisibleGrid[row][col] = true;
 
@@ -58,15 +98,15 @@ export const useMemoryGame = () => {
     let newPreviousNumber = { ...previousNumber }
 
     // Check if user is making the first click
-    if (newPreviousNumber.row !== undefined) {
+    if (newPreviousNumber.row !== undefined && newPreviousNumber.col !== undefined) {
 
       // If same card is clicked
       if (newPreviousNumber.row === row && newPreviousNumber.col === col) return
 
-      const card = getHtmlElement("grid")
+      const card = getHtmlElement("grid")!
       card.style.pointerEvents = "none"
-      const elem1 = getHtmlElement(`${row}${col}`)
-      const elem2 = getHtmlElement(`${newPreviousNumber.row}${newPreviousNumber.col}`)
+      const elem1 = getHtmlElement(`${row}${col}`)!
+      const elem2 = getHtmlElement(`${newPreviousNumber.row}${newPreviousNumber.col}`)!
 
       const number = newGrid[newPreviousNumber.row][newPreviousNumber.col]
 

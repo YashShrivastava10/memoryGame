@@ -1,9 +1,9 @@
 import "../memory.css"
 import { useMemoryGame } from "../hooks/useMemoryGame";
-import { HowToPlay } from "./HowToPlay";
-import { Grid } from "./Grid";
 import { Win } from "./Win";
 import { Back } from "./Back";
+import { HowToPlay } from "./HowToPlay";
+import { Grid } from "./Grid";
 
 export const MemoryGame = () => {
 

@@ -1,6 +1,11 @@
 import { initialGrid } from "../helper";
+import { grid } from "../hooks/useMemoryGame";
 
-export const HowToPlay = ({ setShow, generateGrid }) => {
+type HowToPlayProps = {
+  setShow: React.Dispatch<React.SetStateAction<number>>,
+  generateGrid: (grid: grid) => void
+}
+export const HowToPlay = ({ setShow, generateGrid } : HowToPlayProps) => {
   return (
     <div className='howToPlay'>
           <h2>How To Play</h2>
