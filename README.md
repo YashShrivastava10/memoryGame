@@ -19,7 +19,6 @@ A classic Memory game built using React, where players need to match pairs of nu
 - Interactive and fun memory game.
 - Grid of numbers to match.
 - Winning alert when all pairs are matched.
-- Timer to keep track of the game duration.
 - Easy-to-understand React codebase.
 
 ## Installation
